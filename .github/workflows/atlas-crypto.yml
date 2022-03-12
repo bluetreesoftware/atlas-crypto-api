@@ -47,7 +47,7 @@ jobs:
           key: ${{ secrets.CLOUD_SSH_KEY }}
           port: 22
           script: |
-            cd /home/manager/claymore
+            cd /home/manager/atlas-crypto-api
             git checkout main
             git pull
             docker-compose up -d --build --no-deps
