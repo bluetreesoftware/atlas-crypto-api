@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Transaction\TransactionTypeEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,8 @@ class TransactionFactory extends Factory
             'sender_wallet_id' => random_int(1, 100),
             'recipient_wallet_id' => random_int(1, 100),
             'volume' => random_int(1, 100),
-            'status' => random_int(1, 3)
+            'status' => random_int(1, 4),
+            'type' => TransactionTypeEnum::W2W
         ];
     }
 }
