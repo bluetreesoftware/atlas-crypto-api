@@ -1,0 +1,48 @@
+version: "3.8"
+services:
+    # PHP service
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/php/Dockerfile
+        container_name: app
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - app-network
+        depends_on:
+            - postgresql
+        links:
+            - 'postgresql:postgresql'
+    # PostgreSql database service
+    postgresql:
+        image: postgres:13.5-alpine
+        container_name: postgresql
+        volumes:
+            - ./docker/pgsql:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
+        env_file:
+            - .env
+        ports:
+            - "5452:${DB_PORT}"
+        networks:
+            - app-network
+    # Nginx service
+    nginx:
+        image: nginx:alpine
+        container_name: nginx
+        ports:
+            - "8000:80"
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge
