@@ -26,7 +26,7 @@ USER www
 WORKDIR /var/www
 
 
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+#RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 RUN cp ./deploy/env/.env.main .env
 #
