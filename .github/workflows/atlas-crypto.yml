@@ -1,4 +1,4 @@
-name: Claymore
+name: Atlas Crypto Pipeline
 
 on:
   push:
