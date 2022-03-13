@@ -51,4 +51,4 @@ jobs:
             git checkout main
             git pull
             docker-compose up -d --build --no-deps
-            docker-compose logs
+            docker-compose logs app
