@@ -1,6 +1,5 @@
 FROM devilbox/php-fpm-8.1:latest
 
-
 RUN apt-get update && \
     apt-get install -y --no-install-recommends libssl-dev zlib1g-dev curl git unzip netcat libxml2-dev libpq-dev libzip-dev && \
     pecl install apcu && \
@@ -25,20 +24,8 @@ COPY --chown=www:www . /var/www
 USER www
 WORKDIR /var/www
 
-
-#RUN composer install --no-interaction --prefer-dist --optimize-autoloader
-
-RUN cp ./deploy/env/.env.main .env
-#
-#RUN php artisan migrate:fresh --seed --force
-#
-#RUN php artisan cache:clear
-#
-#RUN php artisan route:cache
-#
-#RUN php artisan config:cache
-
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 
 CMD ["php-fpm"]
+
