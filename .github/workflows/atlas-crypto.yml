@@ -50,4 +50,4 @@ jobs:
             cd /home/manager/atlas-crypto-api
             git checkout main
             git pull
-            docker-compose up -d --build
+            docker compose exec app sh ./deploy/scripts/main.sh

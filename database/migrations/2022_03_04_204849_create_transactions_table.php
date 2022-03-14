@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('sender_wallet_id');
             $table->integer('recipient_wallet_id');
-            $table->float('volume');
+            $table->integer('volume');
             $table->integer('status');
             $table->integer('type');
             $table->timestamps();

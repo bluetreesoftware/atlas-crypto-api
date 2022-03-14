@@ -63,7 +63,7 @@ final class OpenW2WTransactionService
         return Transaction::create([
             'sender_wallet_id' => $this->senderWallet->id,
             'recipient_wallet_id' => $this->recipientWallet->id,
-            'volume' => $this->volume,
+            'volume' => $this->volume * $this->currency->accuracy,
             'status' => TransactionStatusEnum::Open,
             'type'=> TransactionTypeEnum::W2W
         ]);
