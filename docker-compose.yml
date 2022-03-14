@@ -15,8 +15,8 @@ services:
             - postgresql
         links:
             - 'postgresql:postgresql'
-        command:
-            - ./deploy/scripts/main.sh
+#        command:
+#            - ./deploy/scripts/main.sh
     # PostgreSql database service
     postgresql:
         image: postgres:13.5-alpine
