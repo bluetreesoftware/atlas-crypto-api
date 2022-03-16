@@ -19,7 +19,7 @@ class TransactionFactory extends Factory
         return [
             'sender_wallet_id' => random_int(1, 100),
             'recipient_wallet_id' => random_int(1, 100),
-            'volume' => random_int(1, 100),
+            'volume' => random_int(1, 100) * 1000,
             'status' => random_int(1, 4),
             'type' => TransactionTypeEnum::W2W
         ];

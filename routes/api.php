@@ -21,4 +21,6 @@ Route::prefix('consumers')->group(function () {
     Route::prefix('transactions')->group(function () {
         Route::post('w2w', App\Http\Controllers\Consumer\Transaction\W2W\W2WController::class)->name('consumers.transactions.w2w');
     });
+
+    Route::post('trades/{id}/orders', [App\Http\Controllers\Consumer\Exchange\Trade\Order\OpenOrderController::class, 'open'])->name('consumers.trades.orders');
 });

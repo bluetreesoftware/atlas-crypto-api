@@ -5,6 +5,7 @@ namespace App\Services\Transaction\W2W;
 use App\Enums\Transaction\TransactionStatusEnum;
 use App\Models\Transaction;
 use App\Services\Wallet\GetWalletBalanceService;
+use App\Services\Wallet\VerificationBalanceForTransactionService;
 
 final class ProcessingW2WTransactionService
 {
@@ -20,13 +21,11 @@ final class ProcessingW2WTransactionService
      */
     private function isEnoughVolumeInWallet(): bool
     {
-        $balanceWalletService = new GetWalletBalanceService(
-            $this->transaction->senderWallet
-        );
-
-        return $balanceWalletService->getBalance() >= $this->transaction->volume;
+        return (new VerificationBalanceForTransactionService(
+            $this->transaction->senderWallet,
+            $this->transaction->volume
+        ))->verify();
     }
-
 
     private function tryToAuthoriseTransaction()
     {
@@ -40,6 +39,7 @@ final class ProcessingW2WTransactionService
             ]);
         }
     }
+
 
     public function processing()
     {

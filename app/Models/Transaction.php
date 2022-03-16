@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read int $id
  * @property-read int $volume
  * @property-read int $status
+ * @property-read Wallet $senderWallet
+ * @property-read Wallet $recipientWallet
  * @property-read TransactionTypeEnum $type
  */
 class Transaction extends Model

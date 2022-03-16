@@ -9,6 +9,8 @@ use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Transaction;
 use App\Models\Wallet;
+use App\Services\Currency\ConvertToSystemFormat;
+use App\Services\Wallet\GetWalletForCurrency;
 
 final class OpenW2WTransactionService
 {
@@ -46,13 +48,7 @@ final class OpenW2WTransactionService
      */
     private function getAccountWalletForCurrency(Account $account): Wallet
     {
-        $wallet = $account->wallets()->forCurrency($this->currency)->first();
-
-        if (! ($wallet instanceof Wallet)) {
-            throw new \Exception('Wallet for this currency is not exists!');
-        }
-
-        return $wallet;
+        return (new GetWalletForCurrency($account, $this->currency))->get();
     }
 
     /**
@@ -63,7 +59,7 @@ final class OpenW2WTransactionService
         return Transaction::create([
             'sender_wallet_id' => $this->senderWallet->id,
             'recipient_wallet_id' => $this->recipientWallet->id,
-            'volume' => $this->volume * $this->currency->accuracy,
+            'volume' => (new ConvertToSystemFormat($this->currency, $this->volume))->convert(),
             'status' => TransactionStatusEnum::Open,
             'type'=> TransactionTypeEnum::W2W
         ]);
