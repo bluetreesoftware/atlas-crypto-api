@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('trades', function (Blueprint $table) {
             $table->id();
-            $table->integer('account_id');
-            $table->integer('trade_id');
-            $table->integer('price');
-            $table->integer('quantity');
-            $table->integer('action');
-            $table->integer('type');
-            $table->integer('status');
+            $table->string('code');
+            $table->integer('base_currency_id');
+            $table->integer('quote_currency_id');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('trades');
     }
 };
