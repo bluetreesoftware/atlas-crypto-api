@@ -26,7 +26,7 @@ class OpenOrderControllerTest extends TestCase
         parent::setUp();
 
         $this->account = Account::factory()->create();
-
+        $this->actingAs($this->account);
         $this->seed(CurrencySeeder::class);
         $this->seed(TradeSeeder::class);
 
@@ -43,7 +43,7 @@ class OpenOrderControllerTest extends TestCase
         Transaction::create([
             'sender_wallet_id' => 0,
             'recipient_wallet_id' => 2,
-            'volume' => 1,
+            'volume' => 100000000,
             'status' => TransactionStatusEnum::Authorised,
             'type'=> TransactionTypeEnum::P2W
         ]);
@@ -51,7 +51,7 @@ class OpenOrderControllerTest extends TestCase
         Transaction::create([
             'sender_wallet_id' => 0,
             'recipient_wallet_id' => $this->account->id,
-            'volume' => 1,
+            'volume' => 1000000,
             'status' => TransactionStatusEnum::Authorised,
             'type'=> TransactionTypeEnum::P2W
         ]);
