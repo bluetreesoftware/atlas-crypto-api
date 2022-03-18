@@ -33,6 +33,7 @@ class CreateTransactionControllerTest extends TestCase
         $this->sender = Account::factory()->create();
         $this->recipient = Account::factory()->create();
 
+        $this->actingAs($this->sender);
         $this->seed(CurrencySeeder::class);
 
         $this->sender->wallets()->create([

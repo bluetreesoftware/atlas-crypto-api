@@ -19,6 +19,17 @@ class Account extends User
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * @var string[]
+     */
+    protected $fillable = [
+        'email',
+        'first_name',
+        'last_name',
+        'password',
+        'status'
+    ];
+
+    /**
      * @return HasMany
      */
     public function wallets(): HasMany

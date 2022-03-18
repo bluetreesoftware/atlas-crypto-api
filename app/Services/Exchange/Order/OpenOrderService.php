@@ -39,7 +39,6 @@ final class OpenOrderService
     ) {
 
         $this->orderCurrency = (new GetCurrencyForAction($this->trade, $this->action))->get();
-        dump($this->orderCurrency);
     }
 
     private function isAvailableCreateOrder(): bool
