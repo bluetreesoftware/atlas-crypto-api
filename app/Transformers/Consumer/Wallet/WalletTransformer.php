@@ -4,6 +4,7 @@ namespace App\Transformers\Consumer\Wallet;
 
 use App\Models\Currency;
 use App\Models\Wallet;
+use App\Services\Currency\ConvertToConsumerFormat;
 use App\Services\Wallet\GetWalletBalanceService;
 use League\Fractal\Resource\Item;
 use League\Fractal\TransformerAbstract;
@@ -23,10 +24,12 @@ class WalletTransformer extends TransformerAbstract
      */
     public function transform(Wallet $wallet): array
     {
+        $rawBalance = (new GetWalletBalanceService($wallet))->getBalance();
+
         return [
             'id' => $wallet->id,
             'external_id' => $wallet->external_id,
-            'balance' => (new GetWalletBalanceService($wallet))->getBalance(),
+            'balance' => (new ConvertToConsumerFormat($wallet->currency, $rawBalance))->convert(),
         ];
     }
 

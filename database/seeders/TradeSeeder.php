@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Exchange\Trade;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class TradeSeeder extends Seeder
@@ -14,7 +13,7 @@ class TradeSeeder extends Seeder
     protected array $trades = [
         [
             'code' => 'BTC_USDT',
-            'base_currency_id' => 2,
+            'base_currency_id' => 1,
             'quote_currency_id' => 4
         ],
         [
@@ -25,7 +24,7 @@ class TradeSeeder extends Seeder
         [
             'code' => 'ETH_BTC',
             'base_currency_id' => 3,
-            'quote_currency_id' => 2
+            'quote_currency_id' => 1
         ]
     ];
 

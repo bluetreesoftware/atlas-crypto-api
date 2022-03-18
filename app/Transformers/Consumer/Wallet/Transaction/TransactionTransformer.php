@@ -3,6 +3,7 @@
 namespace App\Transformers\Consumer\Wallet\Transaction;
 
 use App\Models\Transaction;
+use App\Services\Currency\ConvertToConsumerFormat;
 use League\Fractal\TransformerAbstract;
 
 class TransactionTransformer extends TransformerAbstract
@@ -15,7 +16,7 @@ class TransactionTransformer extends TransformerAbstract
     {
         return [
             'id' => $transaction->id,
-            'volume' => $transaction->volume,
+            'volume' => (new ConvertToConsumerFormat($transaction->recipientWallet->currency, $transaction->volume))->convert(),
             'status' => $transaction->status,
             'created_at' => $transaction->created_at->format('d.m.Y H:i:s')
         ];

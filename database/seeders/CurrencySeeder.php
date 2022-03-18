@@ -13,14 +13,14 @@ class CurrencySeeder extends Seeder
      */
     protected $currencies = [
         [
+            'name' => 'Bitcoin',
+            'ticker' => 'BTC',
+            'accuracy' => 100000000
+        ],
+        [
             'name' => 'Rubles',
             'ticker' => 'CRUB',
             'accuracy' => 1
-        ],
-        [
-            'name' => 'Bitcoin',
-            'ticker' => 'BTC',
-            'accuracy' => 10000
         ],
         [
             'name' => 'Ethereum',
