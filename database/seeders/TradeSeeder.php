@@ -14,12 +14,12 @@ class TradeSeeder extends Seeder
         [
             'code' => 'BTC_USDT',
             'base_currency_id' => 1,
-            'quote_currency_id' => 4
+            'quote_currency_id' => 2
         ],
         [
             'code' => 'ETH_USDT',
             'base_currency_id' => 3,
-            'quote_currency_id' => 4
+            'quote_currency_id' => 2
         ],
         [
             'code' => 'ETH_BTC',

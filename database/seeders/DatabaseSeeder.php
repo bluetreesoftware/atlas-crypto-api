@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
             CurrencySeeder::class,
             AccountSeeder::class,
             TransactionSeeder::class,
-            TradeSeeder::class
+            TradeSeeder::class,
+            OrderSeeder::class
         ]);
     }
 }

@@ -18,19 +18,14 @@ class CurrencySeeder extends Seeder
             'accuracy' => 100000000
         ],
         [
-            'name' => 'Rubles',
-            'ticker' => 'CRUB',
-            'accuracy' => 1
+            'name' => 'Tether',
+            'ticker' => 'USDT',
+            'accuracy' => 100
         ],
         [
             'name' => 'Ethereum',
             'ticker' => 'ETH',
             'accuracy' => 10000
-        ],
-        [
-            'name' => 'Tether',
-            'ticker' => 'USDT',
-            'accuracy' => 1
         ]
     ];
     /**
