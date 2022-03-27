@@ -11,10 +11,10 @@ class ConsumerController extends Controller
     /**
      * @var Account
      */
-    protected Account $account;
+    protected $account;
 
     public function __construct()
     {
-        $this->account = Account::find(Auth::id());
+        $this->account = Auth::user();
     }
 }
