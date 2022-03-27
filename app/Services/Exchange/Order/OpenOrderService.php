@@ -19,31 +19,30 @@ final class OpenOrderService
     /**
      * @var Currency
      */
-    private Currency $orderCurrency;
+    private Currency $actionCurrency;
 
     /**
      * @param Account $account
      * @param Trade $trade
      * @param OrderTypeEnum $type
      * @param OrderActionEnum $action
-     * @param int $price
-     * @param int $quantity
+     * @param float $price
+     * @param float $quantity
      */
     public function __construct(
         private Account $account,
         private Trade $trade,
         private OrderTypeEnum $type,
         private OrderActionEnum $action,
-        private int $price,
-        private int $quantity,
+        private float $price,
+        private float $quantity,
     ) {
-
-        $this->orderCurrency = (new GetCurrencyForAction($this->trade, $this->action))->get();
+        $this->actionCurrency = (new GetCurrencyForAction($this->trade, $this->action))->get();
     }
 
     private function isAvailableCreateOrder(): bool
     {
-        $wallet = (new GetWalletForCurrency($this->account, $this->orderCurrency))->get();
+        $wallet = (new GetWalletForCurrency($this->account, $this->actionCurrency))->get();
         $volume = $this->price * $this->quantity;
 
         return (new VerificationBalanceForTransactionService($wallet, $volume))->verify();
@@ -52,9 +51,17 @@ final class OpenOrderService
     /**
      * @return int
      */
-    private function getConvertedPrice(): int
+    private function getConvertedprice(): int
     {
-        return (new ConvertToSystemFormat($this->orderCurrency, $this->price))->convert();
+        return (new ConvertToSystemFormat($this->trade->quoteCurrency, $this->price))->convert();
+    }
+
+    /**
+     * @return int
+     */
+    private function getConvertedQuantity(): int
+    {
+        return (new ConvertToSystemFormat($this->trade->baseCurrency, $this->quantity))->convert();
     }
 
     /**
@@ -69,12 +76,13 @@ final class OpenOrderService
                 'trade_id' => $this->trade->id,
                 'type' => $this->type,
                 'action' => $this->action,
-                'price' => $this->getConvertedPrice(),
-                'quantity' => $this->quantity,
+                'price' => $this->getConvertedprice(),
+                'quantity' => $this->getConvertedQuantity(),
+                'actual_quantity' => $this->getConvertedQuantity(),
                 'status' => OrderStatusEnum::Open
             ]);
         } else {
-            throw new \Exception('Not money');
+            throw new \Exception('Not enough funds');
         }
     }
 }

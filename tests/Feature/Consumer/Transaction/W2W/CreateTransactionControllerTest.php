@@ -5,7 +5,9 @@ namespace Tests\Feature\Consumer\Transaction\W2W;
 use App\Enums\Transaction\TransactionStatusEnum;
 use App\Enums\Transaction\TransactionTypeEnum;
 use App\Models\Account;
+use App\Models\Currency;
 use App\Models\Transaction;
+use App\Services\Currency\ConvertToSystemFormat;
 use Database\Seeders\CurrencySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
@@ -52,7 +54,7 @@ class CreateTransactionControllerTest extends TestCase
         Transaction::create([
             'sender_wallet_id' => 0,
             'recipient_wallet_id' => $this->sender->id,
-            'volume' => 1000,
+            'volume' => (new ConvertToSystemFormat(Currency::first(), 1000))->convert(),
             'status' => TransactionStatusEnum::Authorised,
             'type'=> TransactionTypeEnum::P2W
         ]);
@@ -63,6 +65,7 @@ class CreateTransactionControllerTest extends TestCase
             'volume' => 100
         ]);
 
+        $response->dump();
         $response->assertStatus(Response::HTTP_CREATED);
 
         $senderWalletResponse = $this->getJson(route('consumers.wallets.show',1));

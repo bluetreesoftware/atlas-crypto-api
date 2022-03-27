@@ -6,6 +6,7 @@ use App\Http\Requests\Consumer\Auth\SignUpRequest;
 use App\Models\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class SignUpController
 {
@@ -15,6 +16,9 @@ class SignUpController
      */
     public function __invoke(SignUpRequest $request): JsonResponse
     {
-        return responder()->success(Account::create($request->validated()))->respond(Response::HTTP_CREATED);
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+
+        return responder()->success(Account::create($data))->respond(Response::HTTP_CREATED);
     }
 }
