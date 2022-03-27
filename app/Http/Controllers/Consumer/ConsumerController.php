@@ -15,6 +15,6 @@ class ConsumerController extends Controller
 
     public function __construct()
     {
-        $this->account = Auth::user();
+        $this->account = Account::find(auth('sanctum')->user()->id);
     }
 }
