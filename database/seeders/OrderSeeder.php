@@ -28,10 +28,17 @@ class OrderSeeder extends Seeder
         Account::all()->each(function (Account $account) use ($trade) {
             DB::beginTransaction();
             for($i = 0; $i < 10; $i++) {
-                $type = rand(0, 1)? OrderTypeEnum::Limit : OrderTypeEnum::Market;
                 $action = rand(0, 1)? OrderActionEnum::Buy : OrderActionEnum::Sale;
 
-                (new OpenOrderService($account, $trade, $type, $action, rand(41000, 45000), rand(1, 9)))->open();
+                if (rand(0, 1)) {
+                    $type = OrderTypeEnum::Limit;
+                    $price = rand(40000, 43000);
+                } else {
+                    $type = OrderTypeEnum::Market;
+                    $price = 0;
+                }
+
+                (new OpenOrderService($account, $trade, $type, $action, $price, rand(1, 9)))->open();
             }
             DB::commit();
         });

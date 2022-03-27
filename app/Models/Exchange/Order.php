@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read int price
  * @property-read int $quantity
  * @property-read int $actual_quantity
+ * @property-read Account $account
  * @method static self market()
  * @method static self limit()
  * @method static self buy()
@@ -80,7 +81,7 @@ class Order extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeMarket(Builder $query): Builder
+    public function scopeMarketType(Builder $query): Builder
     {
         return  $query->where('type', OrderTypeEnum::Market);
     }
@@ -89,7 +90,7 @@ class Order extends Model
      * @param Builder $query
      * @return Builder
      */
-    public function scopeLimit(Builder $query): Builder
+    public function scopeLimitType(Builder $query): Builder
     {
         return $query->where('type', OrderTypeEnum::Limit);
     }
