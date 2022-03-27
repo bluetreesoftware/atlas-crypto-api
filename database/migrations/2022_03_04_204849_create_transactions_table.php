@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->integer('sender_wallet_id');
-            $table->integer('recipient_wallet_id');
-            $table->integer('volume');
+            $table->bigInteger('sender_wallet_id');
+            $table->bigInteger('recipient_wallet_id');
+            $table->bigInteger('volume');
             $table->integer('status');
             $table->integer('type');
             $table->timestamps();

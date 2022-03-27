@@ -7,6 +7,14 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
+
+    /**
+     * @var string[]
+     */
+    protected $commands = [
+        Commands\Exchange\Trade\MatchOrder::class
+    ];
+
     /**
      * Define the application's command schedule.
      *
