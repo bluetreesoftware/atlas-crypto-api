@@ -15,6 +15,7 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
+            'payment_id' => $this->faker->uuid,
             'email' => $this->faker->email,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,

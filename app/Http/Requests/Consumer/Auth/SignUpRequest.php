@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property-read string $email
+ * @property-read string $first_name
+ * @property-read string $last_name
  * @property-read string $password
  */
 class SignUpRequest extends FormRequest

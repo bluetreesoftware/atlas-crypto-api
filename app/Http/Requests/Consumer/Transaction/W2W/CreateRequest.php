@@ -5,9 +5,9 @@ namespace App\Http\Requests\Consumer\Transaction\W2W;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * @property-read int $recipient_id
+ * @property-read string $payment_id
  * @property-read int $currency_id
- * @property-read $volume
+ * @property-read string $volume
  */
 class CreateRequest extends FormRequest
 {
@@ -29,7 +29,7 @@ class CreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'recipient_id' => ['required', 'integer'],
+            'payment_id' => ['required', 'string'],
             'currency_id' => ['required', 'integer'],
             'volume' => ['required']
         ];
