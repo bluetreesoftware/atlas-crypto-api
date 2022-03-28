@@ -24,6 +24,9 @@ COPY --chown=www:www . /var/www
 USER www
 WORKDIR /var/www
 
+RUN chmod -R 777 ./docker/queues
+RUN chmod +x ./docker/queues/*.sh
+
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 

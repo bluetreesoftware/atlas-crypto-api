@@ -22,7 +22,9 @@ class ProcessingW2WTransactionJob implements ShouldQueue
      */
     public function __construct(
         protected Transaction $transaction
-    ) {}
+    ) {
+        $this->onQueue('transactions_w2w');
+    }
 
     /**
      * Execute the job.
