@@ -16,7 +16,7 @@ final class SaleLimitOrderService extends AbstractLimitOrderService
             $this->limitAccount,
             $this->marketAccount,
             $this->baseCurrency,
-            $this->marketVolume
+            $this->quantity
         ))->commit();
 
         (new CommitO2WTransaction(
@@ -24,7 +24,7 @@ final class SaleLimitOrderService extends AbstractLimitOrderService
             $this->marketAccount,
             $this->limitAccount,
             $this->quoteCurrency,
-            $this->limitVolume
+            $this->price
         ))->commit();
     }
 }

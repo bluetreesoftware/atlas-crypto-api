@@ -9,6 +9,7 @@ use App\Models\Exchange\Trade;
 use App\Services\Exchange\Order\ExecuteOrdersService;
 use App\Services\Exchange\Trade\GetExecutableLimitOrderService;
 use App\Services\Exchange\Trade\GetExecutableMarketOrderService;
+use App\Services\Exchange\Trade\MatchOrderService;
 use App\Services\Transaction\W2W\OpenW2WTransactionService;
 use Illuminate\Console\Command;
 
@@ -54,8 +55,6 @@ class MatchOrder extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
     public function handle()
     {
@@ -65,20 +64,7 @@ class MatchOrder extends Command
         $marketAction = $this->getMarketAction();
 
         while (true) {
-            $limitOrder = (new GetExecutableLimitOrderService($trade, $limitAction))->get();
-            if ($limitOrder) {
-                $marketOrder = (new GetExecutableMarketOrderService($trade, $marketAction))->get();
-
-                if ($marketOrder) {
-                    $this->line('limit order: ' . $limitOrder->id);
-                    $this->line('market order: ' . $marketOrder->id);
-
-                    (new ExecuteOrdersService($trade, $limitOrder, $marketOrder, $limitAction))->execute();
-                }
-            } else {
-                $this->line('');
-                sleep(1);
-            }
+            (new MatchOrderService($trade, $limitAction, $marketAction))->match();
         }
     }
 }

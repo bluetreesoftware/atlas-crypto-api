@@ -35,15 +35,15 @@ abstract class AbstractLimitOrderService
      * @param Trade $trade
      * @param Order $limitOrder
      * @param Order $marketOrder
-     * @param int $limitVolume
-     * @param int $marketVolume
+     * @param int $quantity
+     * @param int $price
      */
     public function __construct(
         protected Trade $trade,
         protected Order $limitOrder,
         protected Order $marketOrder,
-        protected int $limitVolume,
-        protected int $marketVolume
+        protected int $quantity,
+        protected int $price
     ) {
         $this->limitAccount = $this->limitOrder->account;
         $this->marketAccount = $this->marketOrder->account;
@@ -70,8 +70,8 @@ abstract class AbstractLimitOrderService
             return false;
         }
 
-        $this->validateOrderAfterCommitTransaction($this->limitOrder, $this->limitVolume);
-        $this->validateOrderAfterCommitTransaction($this->marketOrder, $this->marketVolume);
+        $this->validateOrderAfterCommitTransaction($this->limitOrder, $this->quantity);
+        $this->validateOrderAfterCommitTransaction($this->marketOrder, $this->quantity);
 
         return true;
     }
