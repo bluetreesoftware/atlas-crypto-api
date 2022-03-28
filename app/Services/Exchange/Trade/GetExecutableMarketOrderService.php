@@ -18,18 +18,17 @@ final class GetExecutableMarketOrderService
     ) {}
 
     /**
-     * @return Order
+     * @return Order|null
      */
-    public function get(): Order
+    public function get(): ?Order
     {
         return Order::query()
             ->marketType()
             ->open()
             ->where('trade_id', $this->trade->id)
             ->where('action', $this->action->value)
-            ->orderBy('price', 'asc')
-            ->orderBy('quantity', 'asc')
-            ->orderBy('created_at', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->orderBy('quantity', 'desc')
             ->first();
     }
 }
