@@ -24,7 +24,11 @@ class TransactionObserver
                 //
                 break;
             case TransactionTypeEnum::P2W:
+                break;
                 //
+            case TransactionTypeEnum::O2W:
+                //
+                break;
         }
     }
 
