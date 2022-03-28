@@ -60,12 +60,11 @@ class CreateTransactionControllerTest extends TestCase
         ]);
 
         $response = $this->postJson(route('consumers.transactions.w2w'), [
-            'recipient_id' => $this->recipient->id,
+            'payment_id' => $this->recipient->payment_id,
             'currency_id' => 1,
             'volume' => 100
         ]);
 
-        $response->dump();
         $response->assertStatus(Response::HTTP_CREATED);
 
         $senderWalletResponse = $this->getJson(route('consumers.wallets.show',1));

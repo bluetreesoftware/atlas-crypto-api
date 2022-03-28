@@ -19,8 +19,9 @@ class W2WController extends ConsumerController
      */
     public function __invoke(CreateRequest $request): JsonResponse
     {
-        $recipient = Account::find($request->recipient_id);
+        $recipient = Account::where('payment_id', $request->payment_id)->firstOrFail();
         $currency = Currency::find($request->currency_id);
+
         $transactionService = new OpenW2WTransactionService(
             $this->account,
             $recipient,

@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property-read int $id
+ * @property-read string $payment_id
  * @property-read string $email
  * @property-read string $first_name
  * @property-read string $last_name
@@ -22,6 +23,7 @@ class Account extends User
      * @var string[]
      */
     protected $fillable = [
+        'payment_id',
         'email',
         'first_name',
         'last_name',
