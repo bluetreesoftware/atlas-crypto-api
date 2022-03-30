@@ -2,21 +2,13 @@
 
 namespace App\Console\Commands\Exchange\Trade;
 
-use App\Enums\Exchange\OrderActionEnum;
-use App\Enums\Exchange\OrderStatusEnum;
-use App\Models\Exchange\Order;
 use App\Models\Exchange\Trade;
-use App\Services\Exchange\Order\ExecuteOrdersService;
-use App\Services\Exchange\Trade\GetExecutableLimitOrderService;
-use App\Services\Exchange\Trade\GetExecutableMarketOrderService;
-use App\Services\Exchange\Trade\MatchOrderService;
-use App\Services\Transaction\W2W\OpenW2WTransactionService;
 use Illuminate\Console\Command;
+use App\Enums\Exchange\OrderActionEnum;
+use App\Services\Exchange\Trade\MatchOrderService;
 
 class MatchOrder extends Command
 {
-    private const ACTION_SALE = 'sale';
-
     private const ACTION_BUY = 'buy';
 
     /**
@@ -63,8 +55,14 @@ class MatchOrder extends Command
         $limitAction = $this->getLimitAction();
         $marketAction = $this->getMarketAction();
 
+        $tick = 0;
         while (true) {
-            (new MatchOrderService($trade, $limitAction, $marketAction))->match();
+            $result = (new MatchOrderService($trade, $limitAction, $marketAction))->match();
+
+            if (!$result) {
+                sleep(10);
+            }
+            $this->info('tick: ' . ++$tick);
         }
     }
 }

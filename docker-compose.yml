@@ -48,6 +48,14 @@ services:
         <<: *app
         container_name: queue_transactions_w2w
         entrypoint: ./docker/queues/transactions_w2w.sh
+    trade_btc_usdt_sale:
+        <<: *app
+        container_name: demon_trade_btc_usdt_sale
+        entrypoint: ./docker/demons/trades/btc_usdt_sale.sh
+    trade_btc_usdt_buy:
+        <<: *app
+        container_name: demon_trade_btc_usdt_buy
+        entrypoint: ./docker/demons/trades/btc_usdt_buy.sh
 networks:
     app-network:
         driver: bridge
