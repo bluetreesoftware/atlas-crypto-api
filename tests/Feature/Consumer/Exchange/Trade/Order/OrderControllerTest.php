@@ -6,11 +6,8 @@ use App\Enums\Exchange\OrderActionEnum;
 use App\Enums\Transaction\TransactionStatusEnum;
 use App\Enums\Transaction\TransactionTypeEnum;
 use App\Models\Account;
-use App\Models\Currency;
 use App\Models\Transaction;
 use App\Models\Wallet;
-use App\Services\Currency\ConvertToSystemFormat;
-use App\Services\Wallet\GetWalletBalanceService;
 use Database\Seeders\CurrencySeeder;
 use Database\Seeders\TradeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,9 +15,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class OpenOrderControllerTest extends TestCase
+class OrderControllerTest extends TestCase
 {
-
     use RefreshDatabase;
 
     /**
@@ -68,7 +64,7 @@ class OpenOrderControllerTest extends TestCase
 
     public function test_account_can_create_order()
     {
-        $response = $this->postJson(route('consumers.trades.orders', 1), [
+        $response = $this->postJson(route('consumers.trades.orders.store', 1), [
             'quantity' => 1,
             'price' => 41000,
             'action' => OrderActionEnum::Buy->value,

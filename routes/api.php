@@ -26,10 +26,9 @@ Route::prefix('consumers')->group(function () {
         Route::apiResource('wallets', App\Http\Controllers\Consumer\Wallet\WalletController::class)->names('consumers.wallets');
         Route::apiResource('wallets.transactions', App\Http\Controllers\Consumer\Wallet\Transaction\TransactionController::class)->names('consumers.wallets.transactions');
 
-        Route::prefix('transactions')->group(function () {
-            Route::post('w2w', App\Http\Controllers\Consumer\Transaction\W2W\W2WController::class)->name('consumers.transactions.w2w');
+        Route::prefix('exchange')->group(function () {
+            Route::apiResource('trades', App\Http\Controllers\Consumer\Exchange\Trade\TradeController::class)->names('consumers.trades');
+            Route::apiResource('trades.orders', App\Http\Controllers\Consumer\Exchange\Trade\Order\OrderController::class)->names('consumers.trades.orders');
         });
-
-        Route::post('trades/{id}/orders', [App\Http\Controllers\Consumer\Exchange\Trade\Order\OpenOrderController::class, 'open'])->name('consumers.trades.orders');
     });
 });
