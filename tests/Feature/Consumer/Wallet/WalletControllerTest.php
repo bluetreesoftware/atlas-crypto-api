@@ -55,7 +55,7 @@ class WalletControllerTest extends TestCase
             'currency_id' => 2
         ]);
 
-        $response = $this->getJson(route('consumers.wallets.show', $wallet->id));
+        $response = $this->getJson(route('consumers.wallets.show', $wallet->external_id));
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
 
