@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static self open()
  * @method static self canceled()
  * @method static self completed()
+ * @method static self forTrade(Trade $trade)
  */
 class Order extends Model
 {
@@ -138,5 +139,15 @@ class Order extends Model
     public function scopeCompleted(Builder $query): Builder
     {
         return $query->where('status', OrderStatusEnum::Completed);
+    }
+
+    /**
+     * @param Builder $query
+     * @param Trade $trade
+     * @return Builder
+     */
+    public function scopeForTrade(Builder $query, Trade $trade): Builder
+    {
+        return $query->where('trade_id', $trade->id);
     }
 }

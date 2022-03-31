@@ -1,12 +1,13 @@
 <?php
 
-namespace Tests\Feature\Consumer\Transaction\W2W;
+namespace Tests\Feature\Consumer\Wallet\Transaction;
 
 use App\Enums\Transaction\TransactionStatusEnum;
 use App\Enums\Transaction\TransactionTypeEnum;
 use App\Models\Account;
 use App\Models\Currency;
 use App\Models\Transaction;
+use App\Models\Wallet;
 use App\Services\Currency\ConvertToSystemFormat;
 use Database\Seeders\CurrencySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -14,7 +15,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class CreateTransactionControllerTest extends TestCase
+class TransactionControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -28,6 +29,16 @@ class CreateTransactionControllerTest extends TestCase
      */
     protected Account $recipient;
 
+    /**
+     * @var Wallet
+     */
+    protected Wallet $senderWallet;
+
+    /**
+     * @var Wallet
+     */
+    protected Wallet $recipientWallet;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -38,12 +49,12 @@ class CreateTransactionControllerTest extends TestCase
         $this->actingAs($this->sender);
         $this->seed(CurrencySeeder::class);
 
-        $this->sender->wallets()->create([
+        $this->senderWallet = $this->sender->wallets()->create([
             'currency_id' => 1,
             'external_id' => Str::uuid()
         ]);
 
-        $this->recipient->wallets()->create([
+        $this->recipientWallet = $this->recipient->wallets()->create([
             'currency_id' => 1,
             'external_id' => Str::uuid()
         ]);
@@ -59,7 +70,7 @@ class CreateTransactionControllerTest extends TestCase
             'type'=> TransactionTypeEnum::P2W
         ]);
 
-        $response = $this->postJson(route('consumers.transactions.w2w'), [
+        $response = $this->postJson(route('consumers.wallets.transactions.store', $this->senderWallet->id), [
             'payment_id' => $this->recipient->payment_id,
             'currency_id' => 1,
             'volume' => 100
