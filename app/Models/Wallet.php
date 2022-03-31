@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 /**
  * @property-read int $id
  * @property-read string $external_id
+ * @property-read int $account_id
  * @property-read Currency $currency
  * @property-read Collection<Transaction> $transactions
  */

@@ -13,6 +13,13 @@ use Illuminate\Http\Response;
 
 class WalletController extends ConsumerController
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->authorizeResource(Wallet::class, 'wallet');
+    }
+
     /**
      * @return JsonResponse
      */

@@ -70,7 +70,7 @@ class TransactionControllerTest extends TestCase
             'type'=> TransactionTypeEnum::P2W
         ]);
 
-        $response = $this->postJson(route('consumers.wallets.transactions.store', $this->senderWallet->id), [
+        $response = $this->postJson(route('consumers.wallets.transactions.store', $this->senderWallet->external_id), [
             'payment_id' => $this->recipient->payment_id,
             'currency_id' => 1,
             'volume' => 100
@@ -78,10 +78,11 @@ class TransactionControllerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_CREATED);
 
-        $senderWalletResponse = $this->getJson(route('consumers.wallets.show',1));
+        $senderWalletResponse = $this->getJson(route('consumers.wallets.show', $this->senderWallet->external_id));
         $this->assertEquals(900, $senderWalletResponse->json('data.balance'));
 
-        $recipientWalletResponse = $this->getJson(route('consumers.wallets.show',2));
+        $this->actingAs($this->recipient);
+        $recipientWalletResponse = $this->getJson(route('consumers.wallets.show', $this->recipientWallet->external_id));
         $this->assertEquals(100, $recipientWalletResponse->json('data.balance'));
     }
 }

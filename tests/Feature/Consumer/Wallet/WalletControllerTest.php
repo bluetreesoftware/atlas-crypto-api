@@ -7,6 +7,7 @@ use App\Models\Wallet;
 use Database\Seeders\CurrencySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class WalletControllerTest extends TestCase
@@ -44,5 +45,19 @@ class WalletControllerTest extends TestCase
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public function test_wallet_can_be_access_only_owner()
+    {
+        $account = Account::factory()->createOne();
+        $wallet = $account->wallets()->create([
+            'external_id' => Str::uuid(),
+            'currency_id' => 2
+        ]);
+
+        $response = $this->getJson(route('consumers.wallets.show', $wallet->external_id));
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
+
     }
 }

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\Consumer\Wallet\Transaction\TransactionController;
+use App\Http\Controllers\Consumer\Wallet\WalletController;
+use App\Models\Wallet;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -29,13 +32,14 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
+            Route::middleware('api')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        $this->setupModelRouteKeys();
     }
 
     /**
@@ -47,6 +51,18 @@ class RouteServiceProvider extends ServiceProvider
     {
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+    }
+
+    protected function setupModelRouteKeys()
+    {
+        Route::bind('wallet', function (string | int $id, \Illuminate\Routing\Route $route) {
+
+            if (in_array($route->controller::class, [WalletController::class, TransactionController::class])) {
+                return  Wallet::where('external_id', $id)->firstOrFail();
+            }
+
+            return Wallet::findOrFail($id);
         });
     }
 }
